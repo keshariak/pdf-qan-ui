@@ -60,9 +60,20 @@ export default function App() {
 
   const inputRef = useRef(null);
 
+  // const handleScrollToInput = () => {
+  //   inputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  //   inputRef.current?.focus(); // Focus the input box after scrolling
+  // };
+
   const handleScrollToInput = () => {
-    inputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-    inputRef.current?.focus(); // Focus the input box after scrolling
+    if (inputRef.current) {
+      inputRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+  
+      
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 500); 
+    }
   };
 
   return (
