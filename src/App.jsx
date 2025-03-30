@@ -11,6 +11,7 @@ export default function App() {
   const [pdfText, setPdfText] = useState(null);
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [isClicked, setIsClicked] = useState(false);
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -32,9 +33,10 @@ export default function App() {
   };
 
   const handleAsk = async () => {
+
     if (!question) return alert("Please enter a question");
     if (!pdfText) return alert("Upload a PDF first");
-
+    setIsClicked(true);
     const userMessage = { text: question, sender: "user" };
     setMessages((prev) => [...prev, userMessage]);
     setQuestion("");
@@ -73,8 +75,8 @@ export default function App() {
             It is now public!
           </div>
 
-          <h1 className="text-6xl font-bold text-center">Chat with your</h1>
-          <h1 className="text-6xl font-bold text-center">
+          <h1 className="md:text-6xl text-5xl font-bold text-center">Chat with your</h1>
+          <h1 className="md:text-6xl text-5xl  font-bold text-center">
             <span className="text-blue-600">Documents</span> in seconds.
           </h1>
           <p className="w-2/3 mt-5 text-center">
@@ -96,13 +98,13 @@ export default function App() {
 
       <div className="flex flex-col items-center justify-center min-h-screen w-full bg-gray-100 px-6 mt-10 ">
         <h1 className="text-3xl font-bold text-gray-900">Start chatting in minutes</h1>
-        <p className="text-gray-600 mt-2">Chatting with your PDF files has never been easier than with Quill.</p>
+        <p className="text-gray-600 mt-2">Chatting with your PDF files has never been easier than with AskMyPDF.</p>
 
-        <div className=" flex gap-8 mt-8 text-center">
+        <div className=" flex md:flex-row flex-col gap-8 mt-8 text-center ">
           {[
            
             { step: "Step 1", title: "Upload your PDF file", desc: "We’ll process your file so you can chat with it." },
-            { step: "Step 2", title: "Start asking questions", desc: "It’s that simple! Try out Quill today." },
+            { step: "Step 2", title: "Start asking questions", desc: "It’s that simple! Try out AskMyPDF today." },
           ].map(({ step, title, desc }) => (
             <div key={step} className="space-y-2">
               <h3 className="text-blue-600 font-semibold">{step}</h3>
@@ -126,18 +128,22 @@ export default function App() {
                 accept="application/pdf" 
                 ref={inputRef} 
                 onChange={(e) => setPdfFile(e.target.files[0])} 
-                className="border p-2 rounded-md"
+                className="border p-2 rounded-md w-1/2"
               />
-              <button type="submit" className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md">
+              {loading?(  <button type="submit" className="ml-2 px-4 py-2 bg-green-500 text-white rounded-md">
+                <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+              </button>)
+              :(<button type="submit" className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md">
                 Upload
-              </button>
+              </button>)}
+              
             </form>
           </div>
         </div>
 
         {/* WhatsApp-style Chat Box (Visible Only After PDF Upload) */}
 {pdfText && (
-  <div className="w-full md:max-w-2/3 max-w-lg bg-white shadow-lg rounded-lg p-4 mt-8">
+  <div className="w-full md:max-w-2/3 max-w-lg bg-white shadow-lg rounded-lg p-4 mt-8 ">
     <h2 className="text-lg font-semibold text-gray-900 mb-4">Chat with Document</h2>
     
     <div className="h-80 overflow-y-auto border p-3 rounded-md bg-gray-100">
@@ -162,9 +168,13 @@ export default function App() {
         onKeyDown={(e) => e.key === "Enter" && handleAsk()} // Send message on Enter key
         className="border p-2 rounded-md w-full"
       />
-      <button onClick={handleAsk} className="ml-2 px-4 py-2 bg-green-500 text-white rounded-md">
-        Ask
-      </button>
+      <button
+      onClick={handleAsk}
+      className="ml-2 px-4 py-2 rounded-md text-white transition-colors bg-green-500 active:bg-green-700 "
+      
+    >
+      Ask
+    </button>
     </div>
   </div>
 )}
