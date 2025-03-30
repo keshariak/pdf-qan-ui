@@ -21,7 +21,7 @@ export default function App() {
 
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:5000/upload", formData);
+      const response = await axios.post("https://pdf-qna-api-zj8y.onrender.com/upload", formData);
       setPdfText(response.data.text);
       alert("PDF uploaded successfully");
     } catch (error) {
@@ -41,7 +41,7 @@ export default function App() {
 
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:5000/ask", {
+      const response = await axios.post("https://pdf-qna-api-zj8y.onrender.com/ask", {
         question,
         pdfText
       });
